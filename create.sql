@@ -2,99 +2,49 @@ CREATE DATABASE IF NOT EXISTS lab_mysql;
 
 USE lab_mysql;
 
--- Drop tables if they already exist to avoid conflicts
 DROP TABLE IF EXISTS invoices;
+DROP TABLE IF EXISTS salespersons;
 DROP TABLE IF EXISTS customers;
-DROP TABLE IF EXISTS salesperson;
 DROP TABLE IF EXISTS cars;
 
--- Create the tables in the correct order
 CREATE TABLE cars (
-    car_id VARCHAR(20) NOT NULL,
-    veh_id_no VARCHAR(20),
-    manufacturer_model VARCHAR(50),
-    year_ INT(4),
-    colour VARCHAR(10),
-    PRIMARY KEY(car_id)
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    vin VARCHAR(17) NOT NULL UNIQUE,
+    manufacturer VARCHAR(50) NOT NULL,
+    model VARCHAR(50) NOT NULL,
+    year INT NOT NULL,
+    color VARCHAR(20) NOT NULL
 );
 
 CREATE TABLE customers (
-    customer_id VARCHAR(10) NOT NULL,
-    customer_name VARCHAR(40),
-    phone_num VARCHAR(15),
-    email VARCHAR(40),
-    address VARCHAR(100),
-    city VARCHAR(50),
-    state CHAR(2),
-    country CHAR(3),
-    postal_code VARCHAR(10),
-    PRIMARY KEY(customer_id)
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    cust_id VARCHAR(20) NOT NULL UNIQUE,
+    cust_name VARCHAR(100) NOT NULL,
+    cust_phone VARCHAR(20),
+    cust_email VARCHAR(100),
+    cust_address VARCHAR(255),
+    cust_city VARCHAR(100),
+    cust_state VARCHAR(100),
+    cust_country VARCHAR(100),
+    cust_zipcode VARCHAR(20)
 );
 
-CREATE TABLE salesperson (
-    sales_person_id VARCHAR(20) NOT NULL,
-    sales_person_name VARCHAR(40),
-    company_store VARCHAR(40),
-    PRIMARY KEY(sales_person_id)
-);
-
-CREATE TABLE invoices (
-    invoice_id VARCHAR(15) NOT NULL,
-    invoice_no INT,
-    car_id VARCHAR(10),
-    customer_id VARCHAR(10),
-    date_ DATE,
-    salesperson_id VARCHAR(20),
-    PRIMARY KEY(invoice_id),
-    FOREIGN KEY(car_id) REFERENCES cars(car_id),
-    FOREIGN KEY(customer_id) REFERENCES customers(customer_id),
-    FOREIGN KEY(salesperson_id) REFERENCES salesperson(sales_person_id)
-);
-
-
-CREATE DATABASE lab_mysql;
-
--- Create the tables in the correct order
-CREATE TABLE cars (
-    car_id VARCHAR(20) NOT NULL,
-    veh_id_no CHAR(20),
-    manufacturer_model VARCHAR(50),
-    year_ INT(4),
-    colour CHAR(10),
-    PRIMARY KEY(car_id)
-);
-
-CREATE TABLE customers (
-    customer_id VARCHAR(10) NOT NULL,
-    customer_name VARCHAR(40),
-    phone_num VARCHAR(15),
-    email VARCHAR(40),
-    address VARCHAR(100),
-    city VARCHAR(50),
-    state CHAR(2),
-    country CHAR(3),
-    postal_code VARCHAR(10),
-    PRIMARY KEY(customer_id)
-);
-
-CREATE TABLE salesperson (
-    sales_person_id VARCHAR(20) NOT NULL,
-    sales_person_name VARCHAR(40),
-    company_store VARCHAR(40),
-    PRIMARY KEY(sales_person_id)
+CREATE TABLE salespersons (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    staff_id VARCHAR(20) NOT NULL UNIQUE,
+    name VARCHAR(100) NOT NULL,
+    store VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE invoices (
-    invoice_id VARCHAR(15) NOT NULL,
-    invoice_no INT,
-    car_id VARCHAR(10),
-    customer_id VARCHAR(10),
-    date_ DATE,
-    salesperson_id VARCHAR(20),
-    PRIMARY KEY(invoice_id),
-    FOREIGN KEY(car_id) REFERENCES cars(car_id),
-    FOREIGN KEY(customer_id) REFERENCES customers(customer_id),
-    FOREIGN KEY(salesperson_id) REFERENCES salesperson(sales_person_id)
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    invoice_number VARCHAR(20) NOT NULL UNIQUE,
+    date DATE NOT NULL,
+    car_id INT,
+    customer_id INT,
+    salesperson_id INT,
+    FOREIGN KEY (car_id) REFERENCES cars(id),
+    FOREIGN KEY (customer_id) REFERENCES customers(id),
+    FOREIGN KEY (salesperson_id) REFERENCES salespersons(id)
 );
-
 
